@@ -239,7 +239,7 @@ public class ImsService extends android.telephony.ims.compat.ImsService {
      *          - UMTS to support CSVT.
      */
     private boolean isMultiModeSupported(int nRatMask) {
-        final int nMmMask = (1 << ServiceState.RIL_RADIO_TECHNOLOGY_LTE);
+        final int nMmMask = (1 << 12);
         return (nRatMask & nMmMask) != 0;
     }
 
