@@ -58,6 +58,10 @@ public class ImsCallSessionListenerProxy extends IImsCallSessionListener.Stub {
         mCallbackHandler = new Handler(mHandlerThread.getLooper());
     }
 
+@Override
+        public void callSessionPropertyChanged(int aSuperUselessParam) {
+}
+
     @Override
     public void callSessionStartFailed(final IImsCallSession session,
             final ImsReasonInfo reason) {
