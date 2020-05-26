@@ -258,12 +258,11 @@ public class ImsService extends android.telephony.ims.compat.ImsService {
 	   setSlotId(slotId);
            mySlotId = slotId;
            Log.i(this, "setSlotId: " + slotId);
+        
+        switchImsPhoneByPhoneId(slotId);
 
            /* Check if any change in socket communication is required */
            initSubscriptionStatus();
-	   if (mImsPhoneId == INVALID_PHONE_ID) {
-              switchImsPhoneByPhoneId(slotId);
-	   }
 	   if (slotId == mImsPhoneId) {
                 mServiceSub[0].setPhoneId(mImsPhoneId);
                 setFeatureState(ImsFeature.STATE_READY);
@@ -285,11 +284,8 @@ public class ImsService extends android.telephony.ims.compat.ImsService {
                 Log.i(this, "got ACTION_DEFAULT_DATA_SUBSCRIPTION_CHANGED, new DDS = "
                         + ddsSubId);
                 switchImsPhoneBySubId(ddsSubId);
-            } else if (action.equals(ACTION_GET_RADIO_ACCESS_FAMILY_CHANGED)) {
-                      String simStatus = intent.getStringExtra("ss");
-                       if ("LOADED".equals(simStatus)) {
+            } else if (action.equals(TelephonyIntents.ACTION_SET_RADIO_CAPABILITY_DONE)) {
                             handleSimStateChanged();
-                       }
             }
         }
     };
@@ -317,7 +313,7 @@ public class ImsService extends android.telephony.ims.compat.ImsService {
 
                 /* Start listening to the RAF change event. */
                 registerReceiver(mBroadcastReceiver,
-                        new IntentFilter(ACTION_GET_RADIO_ACCESS_FAMILY_CHANGED));
+                        new IntentFilter(TelephonyIntents.ACTION_SET_RADIO_CAPABILITY_DONE));
                 mIsReceiverRegistered = true;
             }
         } else {
